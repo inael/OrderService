@@ -1,6 +1,7 @@
 package com.demo.model.dto;
 
 import com.demo.model.Pedido;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +15,7 @@ public class PedidoDTO {
 
 	private Long id;
 	private Long numeroControle;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dataCadastro;
 	private String nome;
 	private BigDecimal valor;

@@ -19,6 +19,7 @@ import java.util.List;
  * Isso torna o sistema mais flexível e a
  * adição de novas regras de validação mais simples.
  */
+
 public interface IPedidoChainValidator {
     void setNextValidator(IPedidoChainValidator nextValidator);
     void validate(List<PedidoDTO> pedidos);

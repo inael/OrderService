@@ -37,12 +37,16 @@ public class PedidoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Autowired
-    private List<IPedidoStrategyValidator> validationStrategies;
-
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    private final List<IPedidoStrategyValidator> validationStrategies;
+
+    @Autowired
+    public PedidoService(List<IPedidoStrategyValidator> validationStrategies) {
+        this.validationStrategies = validationStrategies;
+    }
 
     @Transactional
     public List<PedidoDTO> salvarPedidos(List<PedidoDTO> pedidoDTOs) throws IllegalArgumentException {

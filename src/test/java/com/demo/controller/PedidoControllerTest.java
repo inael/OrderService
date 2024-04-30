@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,7 +25,7 @@ class PedidoControllerTest {
     @Mock
     private PedidoService pedidoService;
 
-    @Mock
+    @MockBean
     private IPedidoChainValidator validatorChain;
 
     @InjectMocks
