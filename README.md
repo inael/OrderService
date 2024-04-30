@@ -16,11 +16,11 @@ Instruções sobre como contribuir para o projeto.
 
 ## Versionamento
 
-Usamos [GITHUB](http://semver.org/) para versionamento. Para as versões disponíveis, veja as [tags neste repositório](https://yourrepository.com/OrderService/tags).
+Usamos [GITHUB](https://github.com/inael/OrderService) para versionamento. Para as versões disponíveis, veja as [tags neste repositório](https://github.com/inael/OrderService/tags).
 
 ## Autores
 
-* **Inael Neto** - *Trabalho Inicial* - [Perfil do GitHub](https://github.com/seuusuario)
+* **Inael Neto** - *Trabalho Inicial* - [Perfil do GitHub](https://github.com/inael)
 
 Veja também a lista de [colaboradores](https://yourrepository.com/OrderService/contributors) que participaram deste projeto.
 
