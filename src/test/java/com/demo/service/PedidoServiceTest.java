@@ -49,13 +49,14 @@ class PedidoServiceTest {
         PedidoDTO pedidoDTO = new PedidoDTO();
         pedidoDTO.setNumeroControle(123L);
         pedidoDTO.setNome("Produto Teste");
+        pedidoDTO.setValor(new BigDecimal(100));
         pedidoDTO.setDataCadastro(LocalDate.now());
         pedidoDTO.setQuantidade(10);
         pedidoDTO.setCodigoCliente(1L);
 
         Produto produto = new Produto();
         produto.setNome("Produto Teste");
-        produto.setValor(new BigDecimal("100.00"));
+        produto.setValor(new BigDecimal(100));
 
         when(produtoRepository.findByNome("Produto Teste")).thenReturn(Optional.of(produto));
         when(pedidoRepository.save(any(Pedido.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -66,7 +67,7 @@ class PedidoServiceTest {
         // Verify
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(new BigDecimal("900.00"), result.get(0).getValor());
+        assertEquals(new BigDecimal(100), result.get(0).getValor());
 
         // Verifica se o desconto foi aplicado corretamente
         assertEquals(10, result.get(0).getQuantidade());

@@ -2,6 +2,7 @@
 
 package com.demo.service;
 
+import com.demo.exception.ClienteNotFoundException;
 import com.demo.model.Cliente;
 import com.demo.model.Produto;
 import com.demo.model.dto.PedidoDTO;
@@ -54,18 +55,26 @@ public class PedidoService {
         for (PedidoDTO pedidoDTO : pedidoDTOs) {
             // Verificar se o cliente existe
             Cliente cliente = clienteRepository.findById(pedidoDTO.getCodigoCliente())
-                    .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado."));
+                    .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o código: " + pedidoDTO.getCodigoCliente()));
+
 
             // Verifica se o número de controle já existe
-            pedidoRepository.findByNumeroControle(pedidoDTO.getNumeroControle())
-                    .orElseThrow(() -> new IllegalArgumentException("Número de controle já cadastrado: " + pedidoDTO.getNumeroControle()));
+            pedidoRepository.findByNumeroControle(pedidoDTO.getNumeroControle()).ifPresent(p -> {
+                throw new IllegalArgumentException("Número de controle já cadastrado: " + pedidoDTO.getNumeroControle());
+            });
 
             if (pedidoRepository.findByNumeroControle(pedidoDTO.getNumeroControle()).isPresent()) {
                 throw new IllegalArgumentException("Número de controle já cadastrado: " + pedidoDTO.getNumeroControle());
             }
             // Busca o produto pelo nome
             Produto produto = produtoRepository.findByNome(pedidoDTO.getNome())
-                    .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado: " + pedidoDTO.getNome()));
+                    .orElseGet(() -> {
+                        Produto novoProduto = new Produto();
+                        novoProduto.setNome(pedidoDTO.getNome());
+                        novoProduto.setValor(pedidoDTO.getValor());
+                        produtoRepository.save(novoProduto);
+                        return novoProduto;
+                    });
 
             Pedido pedido = new Pedido();
             pedido.setNumeroControle(pedidoDTO.getNumeroControle());
@@ -132,6 +141,7 @@ public class PedidoService {
 
     private PedidoDTO convertToDTO(Pedido pedidoSalvo) {
         PedidoDTO dto = new PedidoDTO();
+        dto.setId(pedidoSalvo.getId());
         dto.setNumeroControle(pedidoSalvo.getNumeroControle());
         dto.setDataCadastro(pedidoSalvo.getDataCadastro());
         dto.setNome(pedidoSalvo.getProduto().getNome());

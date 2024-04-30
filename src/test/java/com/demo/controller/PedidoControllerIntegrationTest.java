@@ -65,8 +65,6 @@ public class PedidoControllerIntegrationTest {
                         .content(content))
                 .andExpect(status().isOk())
                 .andReturn();
-
-
     }
 
     @Test

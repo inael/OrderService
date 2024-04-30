@@ -13,41 +13,50 @@ import java.time.LocalDate;
 @Getter
 public class PedidoDTO {
 
-	private Long id;
-	private Long numeroControle;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-	private LocalDate dataCadastro;
-	private String nome;
-	private BigDecimal valor;
-	private Integer quantidade;
-	private Long codigoCliente;
+    private Long id;
+    private Long numeroControle;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate dataCadastro;
+    private String nome;
+    private BigDecimal valor;
+    private Integer quantidade;
+    private Long codigoCliente;
+    private Long valorTotal;
 
-	public PedidoDTO() {
+    public PedidoDTO() {
 
-	}
+    }
 
-	public PedidoDTO(Long id, LocalDate dataCadastro, String nome, BigDecimal valor, Integer quantidade,
-					 Long codigoCliente, Long numeroControle) {
-		this.id = id;
-		this.dataCadastro = dataCadastro;
-		this.nome = nome;
-		this.valor = valor;
-		this.quantidade = quantidade;
-		this.codigoCliente = codigoCliente;
-		this.numeroControle = numeroControle;
-	}
+    public PedidoDTO(Long id, LocalDate dataCadastro, String nome, BigDecimal valor, Integer quantidade,
+                     Long codigoCliente, Long numeroControle) {
+        this.id = id;
+        this.dataCadastro = dataCadastro;
+        this.nome = nome;
+        this.valor = valor;
+        this.quantidade = quantidade;
+        this.codigoCliente = codigoCliente;
+        this.numeroControle = numeroControle;
+        this.valorTotal = (valor != null ? valor.longValue() : 0) * (quantidade != null ? quantidade : 0);
+    }
 
-	// Copia as propriedades básicas da classe Pedido, costumo usar isso pra
-	// facilitar minha conversão de DTO
-	public PedidoDTO(Pedido entity) {
-		BeanUtils.copyProperties(entity, this);
+    public Long getValorTotal() {
+        if(this.valorTotal== null){
+            this.valorTotal = (valor != null ? valor.longValue() : 0) * (quantidade != null ? quantidade : 0);
+        }
+        return this.valorTotal;
+    }
 
-		// Adiciona o cliente manualmente para garantir que a associação é mantida
-		if (entity.getCliente() != null) {
-			this.codigoCliente = entity.getCliente().getId();
-		} else {
-			this.codigoCliente = null;
-		}
-	}
+    // Copia as propriedades básicas da classe Pedido, costumo usar isso pra
+    // facilitar minha conversão de DTO
+    public PedidoDTO(Pedido entity) {
+        BeanUtils.copyProperties(entity, this);
+
+        // Adiciona o cliente manualmente para garantir que a associação é mantida
+        if (entity.getCliente() != null) {
+            this.codigoCliente = entity.getCliente().getId();
+        } else {
+            this.codigoCliente = null;
+        }
+    }
 
 }

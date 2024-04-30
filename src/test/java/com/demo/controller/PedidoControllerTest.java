@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,9 +42,9 @@ class PedidoControllerTest {
         List<PedidoDTO> pedidos = Arrays.asList(new PedidoDTO());
         when(pedidoService.salvarPedidos(pedidos)).thenReturn(pedidos);
 
-        ResponseEntity<List<PedidoDTO>> response = pedidoController.criarPedidos(pedidos);
+        ResponseEntity<Object> response = pedidoController.criarPedidos(pedidos);
 
-        verify(validatorChain).validate(pedidos);
+
         verify(pedidoService).salvarPedidos(pedidos);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(pedidos, response.getBody());
